@@ -3,6 +3,7 @@ var expect = require("chai").expect;
 var baseUrl = "https://jsonplaceholder.typicode.com"
 
 describe('Basic RESTful API test', function() {
+    
     it('should GET a resource', function(done) {
         request.get({ url: baseUrl + '/posts/1' },
             function(error, response, body) {
