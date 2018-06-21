@@ -8,7 +8,7 @@ describe('Basic RESTful API test', function() {
         request.get({ url: baseUrl + '/posts/1' },
             function(error, response, body) {
             		var responseBody = JSON.parse(body);
-                    expect(responseBody.id).to.equal(12);
+                    expect(responseBody.id).to.equal(1);
                     expect(responseBody.hasOwnProperty("title")).is.true
                     expect(response.statusCode).to.equal(200);
                     //console.log(body);
