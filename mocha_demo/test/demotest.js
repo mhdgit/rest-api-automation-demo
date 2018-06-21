@@ -1,35 +1,57 @@
-var should = require("should");
 var request = require("request");
 var expect = require("chai").expect;
-var baseUrl = "https://jsonplaceholder.typicode.com";
+var baseUrl = "https://jsonplaceholder.typicode.com"
 
-
-var baseUrl = "https://jsonplaceholder.typicode.com"; //public test API
-
-describe('API request demo', function() {
-
-  it('should GET a resource', function(done) {
-    request.get(baseUrl + "/posts/1", function(error, response, body){
-      var responseBody = JSON.parse(body);
-      console.log("GET /posts/1: " + body)
-      expect(responseBody.userId).to.equal(1);
-      expect(response.statusCode).to.equal(200);
-      done();
-    });
-  });
-
-  it('should POST a resource', function(done) {
-    var payload = {
-      "title": 'foo',
-      "body": 'bar',
-      "userId": 1
-    };
-    request.post({url: baseUrl + "/posts", form: payload}, function(error, response, body){
-                var responseBody = JSON.parse(body);
-                console.log("POST response body: " + body)
-                expect(responseBody.title).to.equal("foo")
-                expect(response.statusCode).to.equal(201);
+describe('Basic RESTful API test', function() {
+    it('should GET a resource', function(done) {
+        request.get({ url: baseUrl + '/posts/1' },
+            function(error, response, body) {
+            		var responseBody = JSON.parse(body);
+                    expect(responseBody.id).to.equal(12);
+                    expect(responseBody.hasOwnProperty("title")).is.true
+                    expect(response.statusCode).to.equal(200);
+                    //console.log(body);
                 done();
+            });
     });
-  });
+
+    it('should POST a resource', function(done) {
+        var payload = {
+          "title": "mh",
+          "body": "mhtest",
+          "userId": 1
+        };
+        request.post({url: baseUrl + "/posts", form: payload}, function(error, response, body){
+                    var responseBody = JSON.parse(body);
+                    //console.log("POST response body: " + body)
+                    expect(responseBody.title).to.equal("mh")
+                    expect(response.statusCode).to.equal(201);
+                    done();
+        });
+    });
+
+    it('should PUT a resource', function(done) {
+        var payload = {
+          "title": "mhupdated",
+          "body": "mhtest",
+          "userId": 1
+        };
+        request.put({url: baseUrl + "/posts/1", form: payload}, function(error, response, body){
+                    var responseBody = JSON.parse(body);
+                    //console.log("POST response body: " + body)
+                    expect(responseBody.title).to.equal("mhupdated")
+                    expect(response.statusCode).to.equal(200);
+                    done();
+        });
+    });
+
+    it('should DELETE a resource', function(done) {
+        request.delete({url: baseUrl + "/posts/1"}, function(error, response, body){
+                    var responseBody = JSON.parse(body);
+                    expect(Object.keys(responseBody).length).to.equal(0)
+                    expect(response.statusCode).is.JSON
+                    done();
+        });
+    });
+
 });
